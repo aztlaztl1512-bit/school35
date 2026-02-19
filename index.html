@@ -3,179 +3,220 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحدي القدرات - المفردة الشاذة والارتباط والاختلاف نموذج 14</title>
+    <title>حقيبة القدرات الماسية - أ/ عبدالعزيز الفيفي</title>
     <style>
-        :root { --primary: #1a252f; --secondary: #2980b9; --success: #27ae60; --danger: #c0392b; --gold: #f1c40f; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; margin: 0; padding: 20px; color: #2c3e50; }
-        .container { max-width: 850px; margin: auto; background: white; padding: 40px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); border-top: 10px solid var(--primary); }
-        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #f1f1f1; padding-bottom: 20px; }
-        .school-info { font-size: 1.4em; color: var(--secondary); font-weight: bold; margin-top: 5px; }
-        .student-board { background: #f8f9fa; padding: 15px 25px; border-radius: 15px; margin-bottom: 25px; border-right: 8px solid var(--gold); display: flex; justify-content: space-between; align-items: center; }
-        .timer-display { font-weight: bold; font-size: 1.5em; color: var(--primary); background: white; padding: 8px 20px; border-radius: 12px; border: 2px solid var(--secondary); }
-        .timer-warning { color: var(--danger); border-color: var(--danger); animation: pulse 0.6s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-        .question-box h3 { background: #fdfdfd; padding: 25px; border-radius: 15px; border: 2px dashed #dcdde1; margin-top: 0; font-size: 1.3em; line-height: 1.5; }
-        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; list-style: none; padding: 0; }
-        .options-grid li { padding: 18px; border: 2px solid #edeff2; border-radius: 15px; cursor: pointer; text-align: center; transition: 0.3s; font-size: 1.1em; font-weight: 500; background: #fff; }
-        .options-grid li.correct-flash { background: #d4edda !important; border-color: #28a745 !important; color: #155724 !important; }
-        .options-grid li.selected { background: var(--secondary); color: white; border-color: var(--secondary); }
-        .feedback { margin-top: 25px; padding: 20px; border-radius: 15px; display: none; font-size: 1.05em; border-right: 10px solid; }
-        .btn { width: 100%; padding: 18px; border: none; border-radius: 12px; cursor: pointer; font-size: 20px; font-weight: bold; margin-top: 25px; transition: 0.3s; }
-        .btn-start { background: var(--success); color: white; }
-        .btn-next { background: var(--primary); color: white; }
-        .footer-note { text-align: center; margin-top: 40px; padding-top: 25px; border-top: 2px solid #eee; color: #7f8c8d; }
+        :root { 
+            --primary: #1a237e; --secondary: #37474f; --accent: #ffab00; 
+            --bg: #f4f7f6; --white: #ffffff; --correct: #2e7d32; --wrong: #c62828;
+        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; line-height: 1.7; color: #333; }
+        .quiz-card { background: var(--white); width: 100%; max-width: 950px; border-radius: 25px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); border-top: 15px solid var(--primary); padding: 30px; position: relative; }
+        .header { text-align: center; border-bottom: 2px solid #eee; margin-bottom: 25px; padding-bottom: 15px; }
+        
+        .info-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; position: sticky; top: 10px; z-index: 1000; }
+        .student-badge { background: #e8eaf6; color: var(--primary); padding: 10px 20px; border-radius: 50px; font-weight: bold; border: 2px solid var(--primary); font-size: 1rem; }
+        
+        .timer-container { background: var(--secondary); color: white; padding: 10px 25px; border-radius: 50px; font-weight: bold; font-size: 1.1rem; transition: all 0.3s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .timer-pulse { background: var(--wrong) !important; animation: pulse-animation 0.6s infinite alternate; transform: scale(1.1); }
+        @keyframes pulse-animation { from { transform: scale(1.1); } to { transform: scale(1.25); } }
+        
+        .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .option { padding: 18px; border: 2px solid #f0f0f0; border-radius: 15px; cursor: pointer; transition: 0.3s; font-weight: bold; background: #fafafa; font-size: 1.1rem; text-align: center; }
+        .option:hover { border-color: var(--primary); background: #fdf7ff; transform: translateY(-2px); }
+        .correct-opt { background: var(--correct) !important; color: white; border-color: var(--correct) !important; }
+        .wrong-opt { background: var(--wrong) !important; color: white; border-color: var(--wrong) !important; }
+        
+        .feedback-box { margin-top: 20px; padding: 25px; border-radius: 15px; background: #fffde7; border-right: 10px solid var(--accent); display: none; font-size: 1.1rem; }
+        .btn { background: var(--secondary); color: white; padding: 16px 45px; border: none; border-radius: 12px; cursor: pointer; font-size: 1.2rem; font-weight: bold; transition: 0.3s; }
+        .btn:hover { background: var(--primary); }
+
+        .result-table { width: 100%; border-collapse: collapse; margin-top: 25px; background: white; }
+        .result-table th { background: var(--primary); color: white; padding: 12px; }
+        .result-table td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+        
+        .hidden { display: none; }
+        .locked { text-align: center; color: red; padding: 50px; border: 5px solid red; border-radius: 20px; }
     </style>
 </head>
-<body>
-<div class="container">
+<body id="main-body">
+
+<div class="quiz-card" id="quiz-container">
     <div class="header">
-        <h1>🚀 تحدي المفردة الشاذة والارتباط (نموذج 14)</h1>
-        <div class="school-info">ثانوية الأمير عبدالمجيد 🏫🎓</div>
-        <div style="margin-top: 10px; font-size: 1.2em; color: #34495e;">إعداد: أ / عبدالعزيز الفيفي 👨‍🏫</div>
+        <h3 id="author-name">✨ أ / عبدالعزيز الفيفي - ثانوية الأمير عبدالمجيد 🎓</h3>
+        <h2 id="quiz-title">اختبار القدرات اللفظي - النموذج الماسي (14)</h2>
     </div>
 
-    <div id="start-screen">
-        <p style="text-align: center; font-size: 1.2em;">الزمن: 45 ثانية. استعد لاكتشاف الرابط الخفي بين الكلمات.</p>
-        <input type="text" id="name-input" placeholder="اكتب اسمك للمشاركة..." style="width: 100%; padding: 18px; border-radius: 12px; border: 2px solid #ddd; margin-bottom: 20px; font-size: 16px; text-align: center;">
-        <button class="btn btn-start" onclick="initQuiz()">ابدأ التحدي الآن ⚡</button>
+    <div id="start-page" style="text-align: center;">
+        <p style="font-size: 1.2rem; margin-bottom: 20px;">⏱️ 45 ثانية لكل سؤال | 🔀 خلط عشوائي كامل | 💡 تحليل منطقي موسع</p>
+        <input type="text" id="studentNameInput" placeholder="أدخل اسمك الثلاثي لبدء التحدي..." style="width: 75%; padding: 15px; border-radius: 10px; border: 2px solid #ccc; text-align: center; font-size: 1.1rem; margin-bottom: 20px;">
+        <br><button class="btn" onclick="startQuizAction()">ابدأ التحدي 🚀</button>
     </div>
 
-    <div id="quiz-ui" style="display:none;">
-        <div class="student-board"><span id="student-tag"></span><div id="timer-text" class="timer-display">45 ث</div></div>
-        <div id="quiz-content"></div>
-        <button id="next-btn" class="btn btn-next" onclick="nextQuestion()" style="display:none;">السؤال التالي ⬅️</button>
+    <div id="quiz-page" class="hidden">
+        <div class="info-bar">
+            <div id="current-student-display" class="student-badge"></div>
+            <div id="timer-box" class="timer-container">⏳ المتبقي: <span id="timer-val">45</span> ثانية</div>
+        </div>
+        
+        <div id="progress-text" style="font-weight: bold; color: var(--primary); margin-bottom: 10px;"></div>
+        <div id="question-display" style="font-size: 1.8rem; text-align: center; margin: 15px 0; font-weight: 800; color: var(--primary); background: #f9f9f9; padding: 25px; border-radius: 20px; border: 1px solid #eee;"></div>
+        <div id="options-container" class="options-grid"></div>
+        
+        <div id="feedback-display" class="feedback-box"></div>
+        
+        <div style="text-align: center; margin-top: 30px;">
+            <button id="next-btn" class="btn hidden" onclick="loadNextQuestion()">السؤال التالي ⮕</button>
+        </div>
     </div>
 
-    <div id="results" style="display:none;">
-        <h2 style="text-align: center; color: var(--success);">عمل رائع! انتهيت من نموذج 14 🏆</h2>
-        <div id="score-box" style="text-align: center; font-size: 2.2em; margin: 20px 0; font-weight: bold;"></div>
-        <div id="summary-list"></div>
-        <div class="footer-note">نحن فخورون بمستواك يا بطل 🌟<br><strong>أ / عبدالعزيز الفيفي</strong></div>
+    <div id="result-page" class="hidden">
+        <div style="text-align: center; padding: 30px; background: #e8eaf6; border-radius: 20px; border: 3px solid var(--primary); margin-bottom: 30px;">
+            <h1 id="score-display" style="color: var(--primary); margin:0; font-size: 3rem;"></h1>
+            <h2 id="final-student-name" style="color: var(--secondary); margin-top: 15px;"></h2>
+        </div>
+        <table class="result-table">
+            <thead>
+                <tr>
+                    <th>السؤال</th>
+                    <th>إجابتك</th>
+                    <th>الصحيحة</th>
+                    <th>التحليل المنطقي الموسع</th>
+                </tr>
+            </thead>
+            <tbody id="summary-body"></tbody>
+        </table>
+        <div style="text-align: center; margin-top: 40px;">
+            <p style="font-weight: bold; color: var(--primary);">✨ أ / عبد العزيز الفيفي - ثانوية الأمير عبدالمجيد 🎓</p>
+            <button class="btn" onclick="location.reload()">إعادة الاختبار 🔀</button>
+        </div>
     </div>
 </div>
 
 <script>
-const TIME_LIMIT = 45; 
-const quizData = [
-    { q: "المفردة الشاذة: حدد الكلمة المختلفة:", a: ["فاروق", "خالد", "صديق", "ذو النورين"], c: 1, r: "خالد بن الوليد ليس من الخلفاء الراشدين، بينما البقية خلفاء راشدون. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "ارتباط: ما الكلمة الأكثر صلة بكلمة (تلفاز):", a: ["كهرباء", "صورة", "مذيع", "ريموت"], c: 1, r: "الصورة هي الغرض الجوهري والصفة الملازمة للتلفاز. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "اختلاف: أي من هذه الأشجار تختلف في نوع ثمارها (حمضيات):", a: ["نخيل", "ليمون", "برتقال", "يوسفي"], c: 0, r: "النخيل ينتج التمور، بينما البقية من عائلة الحمضيات. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "المفردة الشاذة: حدد الكلمة الشاذة:", a: ["خوف", "يأس", "أمل", "قلق"], c: 2, r: "الأمل شعور إيجابي، بينما الخوف واليأس والقلق مشاعر سلبية. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "ارتباط: (غزال) يرتبط حتماً بـ:", a: ["سرعة", "جمال", "غابة", "عشب"], c: 0, r: "السرعة هي الصفة الحيوية الأبرز والملازمة للغزال في القدرات. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "المفردة الشاذة: حدد الكلمة المختلفة:", a: ["هكتار", "ياردة", "كيلو", "سنتيمتر"], c: 2, r: "الكيلو وحدة وزن، بينما البقية وحدات قياس أطوال أو مساحة. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "ارتباط: كلمة (ديباج) ترتبط بـ:", a: ["حرير", "ذهب", "قماش", "نحاس"], c: 0, r: "الديباج هو صنف فاخر من الحرير. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "اختلاف: أي من هذه الدول تختلف جغرافياً (قارة):", a: ["العراق", "اليمن", "الجزائر", "سوريا"], c: 2, r: "الجزائر في أفريقيا، بينما البقية في آسيا. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "المفردة الشاذة: حدد المفردة الشاذة:", a: ["سبت", "عصر", "أحد", "جمعة"], c: 1, r: "العصر وقت نهار، بينما البقية أسماء أيام الأسبوع. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "ارتباط: (مطر) يرتبط بـ:", a: ["سحاب", "برق", "رعد", "برد"], c: 0, r: "السحاب هو المصدر المكاني والسبب المباشر للمطر. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "المفردة الشاذة: حدد الكلمة المختلفة:", a: ["صقر", "نسر", "عقاب", "نعامة"], c: 3, r: "النعامة طائر لا يطير، بينما البقية طيور جارحة تطير. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "ارتباط: كلمة (مخاض) ترتبط بـ:", a: ["ولادة", "نوم", "موت", "سفر"], c: 0, r: "المخاض هو الطلق وآلام الولادة. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "المفردة الشاذة: حدد الكلمة الشاذة:", a: ["نور", "ضياء", "شمس", "سنا"], c: 2, r: "الشمس جرم سماوي ومصدر، بينما البقية أسماء للضوء نفسه. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "ارتباط: (نجاح) يرتبط بـ:", a: ["مذاكرة", "فرح", "شهادة", "حظ"], c: 0, r: "المذاكرة هي السبب المؤدي للنجاح (علاقة سببية). ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "المفردة الشاذة: حدد المفردة المختلفة:", a: ["طبيب", "معلم", "قلم", "مهندس"], c: 2, r: "القلم أداة، بينما البقية مهن بشرية. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "ارتباط: كلمة (لجين) ترتبط بـ:", a: ["ذهب", "فضة", "نحاس", "ماس"], c: 1, r: "اللجين هو الفضة في اللغة. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "المفردة الشاذة: حدد الكلمة المختلفة:", a: ["أب", "أم", "أخت", "جار"], c: 3, r: "الجار ليس من صلة الرحم المباشرة مثل الأب والأم والأخت. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "ارتباط: (حج) يرتبط بـ:", a: ["مكة", "عرفة", "إحرام", "طواف"], c: 2, r: "الإحرام هو الركن الذي يبدأ به الحج ولا يصح بدونه. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "المفردة الشاذة: حدد المفردة الشاذة:", a: ["منبر", "محراب", "سجادة", "مئذنة"], c: 2, r: "السجادة أثاث متحرك، والبقية أجزاء معمارية ثابتة في المسجد. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "ارتباط: كلمة (فلاة) ترتبط بـ:", a: ["بحر", "واحة", "صحراء", "تيه"], c: 2, r: "الفلاة في اللغة تعني الصحراء الواسعة. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "المفردة الشاذة: حدد الكلمة المختلفة:", a: ["معدن", "حديد", "نحاس", "ألمنيوم"], c: 0, r: "المعدن هو التصنيف العام، بينما البقية أنواع محددة من المعادن. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "ارتباط: (إهمال) يرتبط بـ:", a: ["رسوب", "ضياع", "إخفاق", "فشل"], c: 2, r: "في سياق القدرات؛ الإهمال يؤدي حتماً للإخفاق. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "المفردة الشاذة: حدد المفردة الشاذة:", a: ["عنكبوت", "نحلة", "نملة", "بعوضة"], c: 0, r: "العنكبوت ليس حشرة علمياً (من العنكبوتيات)، بينما البقية حشرات. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "ارتباط: كلمة (صهيل) ترتبط بـ:", a: ["حمار", "خيل", "جمل", "أسد"], c: 1, r: "الصهيل هو صوت الخيل. ✨ أ / عبد العزيز الفيفي 🎓" },
-    { q: "المفردة الشاذة: حدد الكلمة المختلفة:", a: ["جرجير", "خس", "فجل", "تفاح"], c: 3, r: "التفاح فاكهة، بينما البقية من الخضروات الورقية أو الجذورية. ✨ أ / عبد العزيز الفيفي 🎓" }
-];
+    // كود حماية الملكية الفكرية
+    (function protect() {
+        const teacher = "عبدالعزيز الفيفي";
+        setInterval(() => {
+            const auth = document.getElementById('author-name');
+            if (!auth || !auth.innerText.includes(teacher)) {
+                document.getElementById('main-body').innerHTML = '<div class="locked"><h1>⚠️ خرق حماية الملكية</h1></div>';
+            }
+        }, 2000);
+    })();
 
-let currentPos = 0, score = 0, stdName = "", records = [], timerId = null, timeLeft = TIME_LIMIT;
+    // مصفوفة الأسئلة المحقونة من النموذج 14
+    const masterPool = [
+        { q: "المفردة الشاذة: حدد الكلمة التي لا تنتمي للمجموعة:", c: "الكبر", a: ["التواضع", "الوقار", "الكبر", "الحلم"], r: "التواضع والوقار والحلم أخلاق كريمة، أما الكبر فخلق ذميم." },
+        { q: "ارتباط: ما الكلمة الأكثر صلة بكلمة (توبة):", c: "الندم", a: ["الذنب", "الاستغفار", "الخوف", "الندم"], r: "الندم هو الركن الأساسي والجوهري الذي تقوم عليه التوبة الحقيقية." },
+        { q: "المفردة الشاذة: أي من العناصر التالية يختلف في تصنيفه:", c: "ماء", a: ["ذهب", "فضة", "حديد", "ماء"], r: "الذهب والفضة والحديد معادن صلبة، أما الماء فمركب سائل." },
+        { q: "ارتباط: ما الكلمة المرتبطة بكلمة (منحل):", c: "عسل", a: ["نمل", "عسل", "بيت", "شجر"], r: "المنحل هو المكان المخصص لإنتاج العسل." },
+        { q: "اختلاف: أي من المدن يختلف عن البقية:", c: "مكة", a: ["مكة", "القاهرة", "بغداد", "دمشق"], r: "مكة مدينة مقدسة، بينما البقية عواصم سياسية لدول." },
+        { q: "المفردة الشاذة: حدد الكلمة الشاذة فيما يخص الزمن:", c: "زمن", a: ["ساعة", "دقيقة", "ثانية", "زمن"], r: "الساعة والدقيقة والثانية وحدات قياس، أما الزمن فهو المفهوم العام." },
+        { q: "ارتباط: كلمة (رئات) مرتبطة وظيفياً بـ:", c: "التنفس", a: ["الهضم", "التنفس", "الدوران", "الإخراج"], r: "الوظيفة الحيوية الأساسية للرئات هي التنفس." },
+        { q: "اختلاف: أي من العلوم التالية يختلف عن البقية:", c: "منطق", a: ["جبر", "حساب", "هندسة", "منطق"], r: "الجبر والحساب والهندسة علوم رياضية، أما المنطق فعلم عقلي." },
+        { q: "المفردة الشاذة: حدد الكلمة التي لا تنتمي للمجموعة:", c: "قماش", a: ["قماش", "حرير", "صوف", "قطن"], r: "الحرير والصوف والقطن مواد خام، أما القماش فهو المنتج النهائي." },
+        { q: "ارتباط: ما الكلمة المرتبطة بكلمة (غيمة):", c: "مطر", a: ["شمس", "مطر", "رعد", "برق"], r: "المطر هو الناتج المباشر والمرتبط وظيفياً بالغيمة." },
+        { q: "اختلاف: أي مما يلي يختلف في تصنيفه العلمي:", c: "ماء", a: ["أوكسجين", "نيتروجين", "هيدروجين", "ماء"], r: "الأوكسجين والنيتروجين والهيدروجين غازات (عناصر)، أما الماء فمركب سائل." },
+        { q: "المفردة الشاذة: حدد الكلمة المختلفة:", c: "صبار", a: ["ياسمين", "نرجس", "صبار", "أقحوان"], r: "الياسمين والنرجس والأقحوان زهور عطرية، أما الصبار فنبات شوكي." },
+        { q: "ارتباط: كلمة (سرج) مرتبطة بـ:", c: "فرس", a: ["ناقة", "فرس", "حمار", "بغل"], r: "السرج يوضع على ظهر الفرس للركوب." },
+        { q: "اختلاف: أي الأعضاء يختلف في موقعه من الجسم:", c: "يد", a: ["عين", "أذن", "أنف", "يد"], r: "العين والأذن والأنف في الرأس، أما اليد فمن الأطراف." },
+        { q: "المفردة الشاذة: حدد الكلمة الشاذة فيما يلي:", c: "مكتبة", a: ["صحف", "مجلات", "كتب", "مكتبة"], r: "الصحف والمجلات والكتب مواد مقروءة، أما المكتبة فهي المكان الذي يجمعها." },
+        { q: "ارتباط: كلمة (ريشة) مرتبطة مهنياً بـ:", c: "رسام", a: ["كاتب", "رسام", "شاعر", "مهندس"], r: "الريشة هي الأداة الأساسية للرسام." },
+        { q: "اختلاف: أي من التالي يختلف في تصنيفه الجغرافي:", c: "جدة", a: ["تبوك", "حائل", "نجران", "جدة"], r: "تبوك وحائل ونجران مدن داخلية، أما جدة فمدينة ساحلية." },
+        { q: "المفردة الشاذة: حدد الكلمة المختلفة:", c: "حزن", a: ["فرح", "سرور", "حزن", "بهجة"], r: "الفرح والسرور والبهجة مترادفات للسعادة، أما الحزن فضدها." },
+        { q: "ارتباط: كلمة (محراب) مرتبطة مكانياً بـ:", c: "مسجد", a: ["منبر", "مسجد", "إمام", "مؤذن"], r: "المحراب جزء أصيل في بناء المسجد." },
+        { q: "اختلاف: أي من الأعداد التالية يختلف في نوعه:", c: "9", a: ["3", "5", "7", "9"], r: "3 و5 و7 أعداد أولية، أما 9 فعدد غير أولي." },
+        { q: "المفردة الشاذة: حدد الكلمة الشاذة:", c: "سد", a: ["بحر", "نهر", "محيط", "سد"], r: "البحر والنهر والمحيط تجمعات مائية طبيعية، أما السد فبناء بشري." },
+        { q: "ارتباط: كلمة (غمد) مرتبطة بـ:", c: "سيف", a: ["رمح", "سيف", "خنجر", "سكين"], r: "الغمد هو الغلاف المخصص للسيف." },
+        { q: "اختلاف: أي من الكلمات تختلف في تصنيفها المعيشي:", c: "غزال", a: ["أسد", "نمر", "ذئب", "غزال"], r: "الأسد والنمر والذئب مفترسات، أما الغزال فعاشب." },
+        { q: "ارتباط: ما الكلمة الأكثر صلة بكلمة (بصمة):", c: "إبهام", a: ["وجه", "عين", "يد", "إبهام"], r: "الارتباط التقليدي والحيوي للبصمة هو الإبهام." },
+        { q: "المفردة الشاذة: حدد الكلمة التي لا تنتمي للمجموعة:", c: "الخيانة", a: ["الصدق", "الأمانة", "الوفاء", "الخيانة"], r: "الصدق والأمانة والوفاء فضائل، أما الخيانة فرذيلة." }
+    ];
 
-function initQuiz() {
-    stdName = document.getElementById('name-input').value.trim();
-    if(!stdName) return alert("الاسم مطلوب!");
-    document.getElementById('start-screen').style.display = "none";
-    document.getElementById('quiz-ui').style.display = "block";
-    document.getElementById('student-tag').innerHTML = `👤 المتحدي: <strong>${stdName}</strong>`;
-    renderQuestion();
-}
+    let currentIdx = 0, score = 0, timer, timeLeft = 45, logs = [], activeQs = [], sName = "";
 
-function runTimer() {
-    timeLeft = TIME_LIMIT;
-    const timerBox = document.getElementById('timer-text');
-    timerBox.innerText = `${timeLeft} ث`;
-    timerBox.classList.remove('timer-warning');
-    clearInterval(timerId);
-    timerId = setInterval(() => {
-        timeLeft--;
-        timerBox.innerText = `${timeLeft} ث`;
-        if(timeLeft <= 7) timerBox.classList.add('timer-warning');
-        if(timeLeft <= 0) {
-            clearInterval(timerId);
-            handleTimeUp();
+    function shuffle(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
         }
-    }, 1000);
-}
+        return arr;
+    }
 
-function renderQuestion() {
-    const data = quizData[currentPos];
-    document.getElementById('quiz-content').innerHTML = `
-        <div style="color:#7f8c8d; font-weight:bold; margin-bottom:15px;">السؤال ${currentPos + 1} من ${quizData.length}</div>
-        <div class="question-box"><h3>${data.q}</h3></div>
-        <ul class="options-grid" id="opts">
-            ${data.a.map((opt, i) => `<li id="opt-${i}" onclick="onSelect(this, ${i})">${opt}</li>`).join('')}
-        </ul>
-        <div id="fb" class="feedback"></div>
-    `;
-    document.getElementById('next-btn').style.display = "none";
-    runTimer();
-}
+    function startQuizAction() {
+        sName = document.getElementById('studentNameInput').value;
+        if (!sName.trim()) { alert("يرجى كتابة اسمك الثلاثي"); return; }
+        activeQs = shuffle([...masterPool]);
+        document.getElementById('current-student-display').innerText = "المتحدي: " + sName;
+        document.getElementById('start-page').classList.add('hidden');
+        document.getElementById('quiz-page').classList.remove('hidden');
+        loadQuestion();
+    }
 
-function onSelect(el, idx) {
-    if(document.getElementById('next-btn').style.display === "block") return;
-    clearInterval(timerId);
-    const data = quizData[currentPos];
-    const isCorrect = (idx === data.c);
-    if(isCorrect) score++;
-    
-    records.push({q: data.q, user: data.a[idx], correct: data.a[data.c], isCorrect, r: data.r});
-    showFeedback(isCorrect, data.r);
-}
+    function startTimer() {
+        clearInterval(timer);
+        timeLeft = 45;
+        const box = document.getElementById('timer-box');
+        const val = document.getElementById('timer-val');
+        box.classList.remove('timer-pulse');
+        val.innerText = timeLeft;
+        timer = setInterval(() => {
+            timeLeft--;
+            val.innerText = timeLeft;
+            if (timeLeft <= 5) box.classList.add('timer-pulse');
+            if (timeLeft <= 0) { clearInterval(timer); handleAns(null, null); }
+        }, 1000);
+    }
 
-function handleTimeUp() {
-    if(document.getElementById('next-btn').style.display === "block") return;
-    const data = quizData[currentPos];
-    const correctOption = document.getElementById(`opt-${data.c}`);
-    correctOption.classList.add('correct-flash');
+    function loadQuestion() {
+        if (currentIdx >= activeQs.length) { endQuiz(); return; }
+        const q = activeQs[currentIdx];
+        document.getElementById('progress-text').innerText = `سؤال ${currentIdx + 1} من ${activeQs.length}`;
+        document.getElementById('question-display').innerText = q.q;
+        document.getElementById('feedback-display').style.display = 'none';
+        document.getElementById('next-btn').classList.add('hidden');
+        const box = document.getElementById('options-container');
+        box.innerHTML = '';
+        shuffle([...q.a]).forEach(opt => {
+            const div = document.createElement('div');
+            div.className = 'option';
+            div.innerText = opt;
+            div.onclick = () => handleAns(opt, div);
+            box.appendChild(div);
+        });
+        startTimer();
+    }
 
-    records.push({q: data.q, user: "انتهى الوقت", correct: data.a[data.c], isCorrect: false, r: data.r});
-    showFeedback(false, "انتهى الوقت! لاحظ الإجابة الصواب.<br>" + data.r);
-}
+    function handleAns(sel, el) {
+        clearInterval(timer);
+        document.getElementById('timer-box').classList.remove('timer-pulse');
+        const q = activeQs[currentIdx];
+        const opts = document.querySelectorAll('.option');
+        opts.forEach(o => o.onclick = null);
+        let isCorrect = (sel === q.c);
+        if (isCorrect) { if(el) el.classList.add('correct-opt'); score++; }
+        else { if(el) el.classList.add('wrong-opt'); opts.forEach(o => { if(o.innerText === q.c) o.classList.add('correct-opt'); }); }
+        
+        const fb = document.getElementById('feedback-display');
+        fb.style.display = 'block';
+        fb.innerHTML = `<strong>${isCorrect ? 'أحسنت! ✅' : 'حاول مرة أخرى.. ❌'}</strong><br>${q.r}<br><br><small>✨ أ / عبدالعزيز الفيفي - ثانوية الأمير عبدالمجيد 🎓</small>`;
+        
+        document.getElementById('next-btn').classList.remove('hidden');
+        logs.push({ q: q.q, user: sel || "انتهى الوقت ⏰", correct: q.c, r: q.r, isCorrect });
+    }
 
-function showFeedback(isCorrect, reason) {
-    const fb = document.getElementById('fb');
-    fb.style.display = "block";
-    fb.style.borderColor = isCorrect ? "var(--success)" : "var(--danger)";
-    fb.style.background = isCorrect ? "#eafaf1" : "#fdedec";
-    fb.innerHTML = `<strong>${isCorrect ? 'أحسنت! ✅' : 'انتبه.. ❌'}</strong><br>${reason}`;
-    document.getElementById('next-btn').style.display = "block";
-}
+    function loadNextQuestion() { currentIdx++; loadQuestion(); }
 
-function nextQuestion() {
-    currentPos++;
-    if(currentPos < quizData.length) renderQuestion();
-    else finalize();
-}
-
-function finalize() {
-    document.getElementById('quiz-ui').style.display = "none";
-    document.getElementById('results').style.display = "block";
-    document.getElementById('score-box').innerText = `النتيجة: ${score} من ${quizData.length}`;
-    let html = "<h4>تقرير التحليل النهائي لنموذج 14:</h4>";
-    records.forEach((rec, i) => {
-        html += `<div style="padding:15px; border-bottom:1px solid #eee; margin-bottom:12px; border-radius:12px; background:#fdfdfd; border-right: 5px solid ${rec.isCorrect?'var(--success)':'var(--danger)'}">
-            <strong>س${i+1}. ${rec.q}</strong><br>
-            اختيارك: <span style="color:${rec.isCorrect?'var(--success)':'var(--danger)'}">${rec.user}</span> | الصواب: <span style="color:var(--success)">${rec.correct}</span><br>
-            <small>💡 الشرح: ${rec.r}</small>
-        </div>`;
-    });
-    document.getElementById('summary-list').innerHTML = html;
-}
+    function endQuiz() {
+        document.getElementById('quiz-page').classList.add('hidden');
+        document.getElementById('result-page').classList.remove('hidden');
+        document.getElementById('score-display').innerText = `${score} / ${activeQs.length}`;
+        document.getElementById('final-student-name').innerText = `المتحدي: ${sName}`;
+        const tbody = document.getElementById('summary-body');
+        logs.forEach(l => {
+            tbody.innerHTML += `<tr><td>${l.q}</td><td style="color:${l.isCorrect ? 'green':'red'}">${l.user}</td><td style="color:green; font-weight:bold">${l.correct}</td><td style="text-align:right">${l.r}</td></tr>`;
+        });
+    }
 </script>
 </body>
 </html>
